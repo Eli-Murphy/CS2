@@ -9,9 +9,10 @@ def main():
     #Personal LPT
     #stextfile = open(r"C:\Users\elija\Documents\GitHub\CS2\Assignments\macbeth.txt")
     try:
-        textfile = open(input("Please input the path to the file (include C:/): "))
+        textfileinput = input("Please input the path to the file (include C:/): ")
+        textfile = open(textfileinput)
     except OSError:
-        print("Please input a path that exists. ")
+        print("is not a path or the file/directory does not exists. Please input a ")
         main()
     capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
 
