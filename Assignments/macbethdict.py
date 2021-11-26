@@ -1,28 +1,34 @@
 #Library Imports
 import string
+import os
 
 def main():
 
-    #School LTP
-    #textfile = open(r"C:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbeth.txt")
-
-    #Personal LPT
-    #stextfile = open(r"C:\Users\elija\Documents\GitHub\CS2\Assignments\macbeth.txt")
     try:
-        textfileinput = input("Please input the path to the file (include C:/): ")
-        textfile = open(textfileinput)
+        pathinput = input("Please input the path to the file (dir/folder/file.txt): ")
+        drive, path = os.path.splitdrive(pathinput)                          #Splits input into drive and path, path is redundant
+        
+        if pathinput.lower() and not pathinput.endswith(".txt"):             #Verifies input is indeed a text file
+            print("Sorry, file must have a .txt extension.\n")
+            main()
+        elif drive == "":                                                    #Verifies input has a drive selected
+            print("Please verify that you have inputted a drive (ex. C:\\)\n")
+            main()
+        else:
+            textfile = open(pathinput)
     except OSError:
-        print("is not a path or the file/directory does not exists. Please input a ")
+        print("OSError: Inputted path is not a path or the file/directory does not exists. Please input a valid path.\n")
         main()
-    capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
 
+
+    capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
     counts = dict()
     for line in textfile:                                                     #For each line in the text file...
-        line = line.strip()                                                   #This line through 8 down (14-22 unless changed) formats for sorting
+        line = line.strip()                                                   #This line through 8 down (27-34 unless changed) formats for sorting
         line = line.strip("\n")
-        if capyn == "n":
+        if capyn == "y":
             line = line.lower()
-        elif capyn != "y" or capyn != "n":
+        elif capyn != "y" and capyn != "n":
             print("Please input either y or n.")
             break 
         line = line.translate(line.maketrans("", "", string.punctuation))     #Removes all punctuation for word splitting
@@ -35,10 +41,10 @@ def main():
             else:                                                             #If that word dosent have a key,
                 counts[instance] = 1                                          #Create one and give it a value
     finaldict = dict(reversed(sorted(counts.items(), key=lambda x: x[1])))    #Formats dictionary to have it from greatest to smallest value of keys
-    topyn = (input("Top? (y/n): ")).lower()                                   #Checks to see if user wants only top results
+    topyn = (input("\nTop? (y/n): ")).lower()                                 #Checks to see if user wants only top results
     if topyn == "y":    
-        topnumb = int(input("How many top?: "))                               #If they want top results, how many top results?
-        print(top_n(dict(finaldict), topnumb))                                #Calls function to print top 10
+        topnumb = int(input("\nHow many top?: "))                             #If they want top results, how many top results?
+        print(top_n(dict(finaldict), topnumb))                                #Calls function to print top instances
     elif topyn == "n":   
         for key in list(finaldict.keys()):                                    #For every key in the dictionary,
             if finaldict[key] == int(1):                                      #If there is only one instnace of a word, returns correct grammar (time vs. times)
@@ -46,7 +52,7 @@ def main():
             else:
                 print("'" + str(key) + "' was used", finaldict[key], "times.")
     else:
-        print("Sorry, please input y or n")
+        print("\nSorry, please input y or n.")
 
 
 
