@@ -23,7 +23,7 @@ def main():
 
     capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
     counts = dict()
-<<<<<<< HEAD
+
     for line in macbeth:
         line = line.strip()
         line = line.lower()
@@ -52,7 +52,6 @@ def main():
         result = str(key) + " : " + str(finaldict[key])
         output.write(result)
         output.write("\n")       
-=======
     for line in textfile:                                                     #For each line in the text file...
         line = line.strip()                                                   #This line through 8 down (27-34 unless changed) formats for sorting
         line = line.strip("\n")
@@ -99,7 +98,6 @@ def top_n(finaldict, topnumb):
     :return type: string
     :raises:
     '''
->>>>>>> 5fbe5d9b938b2682fbaeacdcc1c4fa03e39a9c41
 
     loopbreak = topnumb
     topcount = 1
