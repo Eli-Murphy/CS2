@@ -1,11 +1,13 @@
 #Library Imports
 import string
 import os
+import matplotlib.pyplot as plt
 
 def main():
 
     try:
-        pathinput = input("Please input the path to the file (dir/folder/file.txt): ")
+        #pathinput = input("Please input the path to the file (dir/folder/file.txt): ")
+        pathinput = r"C:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbeth.txt"
         drive, path = os.path.splitdrive(pathinput)                          #Splits input into drive and path, path is redundant
         
         if pathinput.lower() and not pathinput.endswith(".txt"):             #Verifies input is indeed a text file
@@ -24,16 +26,14 @@ def main():
     capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
     counts = dict()
 
-    for line in macbeth:
+    for line in textfile:
         line = line.strip()
         line = line.lower()
         line = line.translate(line.maketrans("", "", string.punctuation))
         word = line.split(" ")
         for instance in word:
-            if instance == " ":
-                counts["Spaces"] = counts["Spaces"] + 1
-            if instance == "\\n":
-                counts["\\n"] = counts["\n"] + 1
+            if instance == "":
+                break
             if instance != " ":
                 if instance in counts:
                     counts[instance] = counts[instance] + 1
@@ -48,7 +48,7 @@ def main():
         output = open(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt", "w+")
 
     for key in list(finaldict.keys()):
-        print(key, ":", finaldict[key])
+        #print(key, ":", finaldict[key])
         result = str(key) + " : " + str(finaldict[key])
         output.write(result)
         output.write("\n")       
@@ -73,13 +73,19 @@ def main():
     topyn = (input("\nTop? (y/n): ")).lower()                                 #Checks to see if user wants only top results
     if topyn == "y":    
         topnumb = int(input("\nHow many top?: "))                             #If they want top results, how many top results?
-        print(top_n(dict(finaldict), topnumb))                                #Calls function to print top instances
+        result = top_n(dict(finaldict), topnumb)                                #Calls function to print top instances
+        print(result)
     elif topyn == "n":   
         for key in list(finaldict.keys()):                                    #For every key in the dictionary,
             if finaldict[key] == int(1):                                      #If there is only one instnace of a word, returns correct grammar (time vs. times)
                 print("'" + str(key) + "' was used", finaldict[key], "time.")
             else:
                 print("'" + str(key) + "' was used", finaldict[key], "times.")
+    graphyn = (input("\nGraph? (y/n): ")).lower()
+    if graphyn == 'y':
+        topnumb = int(input("\nHow many top?: "))
+        plt = graphing(finaldict, topnumb)
+        plt.show()
     else:
         print("\nSorry, please input y or n.")
 
@@ -108,6 +114,46 @@ def top_n(finaldict, topnumb):
         loopbreak = loopbreak - 1
         if loopbreak == 0:
             return str(output + "\n")
+
+def graphing(finaldict, n):
+    try:
+        
+        #this separates the matching keys and values to its own 
+        #variables, making it easier to work with
+        
+        d = dict(list(finaldict.items())[:n])
+        keys = d.keys()     
+        values = d.values()
+        #print(d)
+        
+        x = input("\nWhat is your X-Axis?: ")
+        y = input("What is your Y-Axis?: ")
+        title = input("What is the title of the graph?")
+    
+        chart = input("Which chart would you like to use? (line, bar, or pie): ")
+        if chart == "line":
+            plt.plot(keys, values)
+            plt.ylabel(x)
+            plt.xlabel(y)
+            plt.title(title)
+            return plt
+        elif chart == "bar":
+            plt.bar(keys, values)
+            plt.ylabel(x)
+            plt.xlabel(y)
+            plt.title(title)
+            return plt
+        elif chart == "pie":
+            plt.pie(values, labels = keys, shadow=True, autopct='%1.1f%%',radius=1.3)
+            plt.title(title)  
+            #To be honest, im not sure what all these mean, but I do know that this 
+            #customizes the pie chart.
+            return plt
+        else:
+            print("Sorry! Thats not an option.")
+    except:
+        print("Error, missing data.")
+        
 
 if __name__ == '__main__':
     main()
