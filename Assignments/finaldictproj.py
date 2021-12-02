@@ -32,7 +32,7 @@ def main():
         line = line.translate(line.maketrans("", "", string.punctuation))
         word = line.split(" ")
         for instance in word:
-            if instance == "":
+            if instance == "" or instance == "the" or instance == "and" or instance == "or" or instance == "to" or instance == "of" or instance == "i" or instance == "a" or instance == "that" or instance == "in" or instance == "you" or instance == "is" or instance == "my" or instance == "not" or instance == "with" or instance == "it" or instance == "his" or instance == "be" or instance == "your" or instance == "have" or instance == "but" or instance == "he" or instance == "what" or instance == "as" or instance == "we" or instance == "all" or instance == "for" or instance == "our" or instance == "which" or instance == "so" or instance == "are" or instance == "this" or instance == "by" or instance == "me" or instance == "they" or instance == "come" or instance == "if"  or instance == "who" or instance == "no" or instance == "upon":
                 break
             if instance != " ":
                 if instance in counts:
@@ -128,7 +128,7 @@ def graphing(finaldict, n):
         
         x = input("\nWhat is your X-Axis?: ")
         y = input("What is your Y-Axis?: ")
-        title = input("What is the title of the graph?")
+        title = input("What is the title of the graph?: ")
     
         chart = input("Which chart would you like to use? (line, bar, or pie): ")
         if chart == "line":
