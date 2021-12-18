@@ -23,7 +23,12 @@ def main():
         main()
 
 
-    capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
+    capyn = (input("\nSet all words to lowercase? (y/n): ")).lower()                    #Checks if user wants to set all words to lowercase
+    uselessyn = (input("Would you like to remove words like the, and, or, etc.?: ")).lower()
+    #if uselessyn != "y" or uselessyn != "n" or capyn != "y" or capyn != "n":
+     #   print("Please input either y or n for y/n questions.")
+      #  main()
+
     counts = dict()
 
     for line in textfile:
@@ -32,7 +37,10 @@ def main():
         line = line.translate(line.maketrans("", "", string.punctuation))
         word = line.split(" ")
         for instance in word:
-            if instance == "" or instance == "the" or instance == "and" or instance == "or" or instance == "to" or instance == "of" or instance == "i" or instance == "a" or instance == "that" or instance == "in" or instance == "you" or instance == "is" or instance == "my" or instance == "not" or instance == "with" or instance == "it" or instance == "his" or instance == "be" or instance == "your" or instance == "have" or instance == "but" or instance == "he" or instance == "what" or instance == "as" or instance == "we" or instance == "all" or instance == "for" or instance == "our" or instance == "which" or instance == "so" or instance == "are" or instance == "this" or instance == "by" or instance == "me" or instance == "they" or instance == "come" or instance == "if"  or instance == "who" or instance == "no" or instance == "upon":
+            
+            if instance == "":
+                break
+            if uselessyn == "y" and instance == "" or instance == "the" or instance == "and" or instance == "or" or instance == "to" or instance == "of" or instance == "i" or instance == "a" or instance == "that" or instance == "in" or instance == "you" or instance == "is" or instance == "my" or instance == "not" or instance == "with" or instance == "it" or instance == "his" or instance == "be" or instance == "your" or instance == "have" or instance == "but" or instance == "he" or instance == "what" or instance == "as" or instance == "we" or instance == "all" or instance == "for" or instance == "our" or instance == "which" or instance == "so" or instance == "are" or instance == "this" or instance == "by" or instance == "me" or instance == "they" or instance == "come" or instance == "if"  or instance == "who" or instance == "no" or instance == "upon"  or instance == "now" or instance == "then":
                 break
             if instance != " ":
                 if instance in counts:
@@ -83,9 +91,12 @@ def main():
                 print("'" + str(key) + "' was used", finaldict[key], "times.")
     graphyn = (input("\nGraph? (y/n): ")).lower()
     if graphyn == 'y':
-        topnumb = int(input("\nHow many top?: "))
-        plt = graphing(finaldict, topnumb)
-        plt.show()
+        try:
+            topnumb = int(input("\nHow many top?: "))
+            plt = graphing(finaldict, topnumb)
+            plt.show()
+        except:
+            print("Sorry, please input an integer.")
     else:
         print("\nSorry, please input y or n.")
 
