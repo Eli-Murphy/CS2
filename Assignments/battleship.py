@@ -55,12 +55,20 @@ def createShips2(hiddenBoard):
 
 def getShotLocation():
     hitcoord = list(input("Please input hit coordinates (ex. A1): "))
-    while len(hitcoord) != 2 or hitcoord[0] not in "ABCDEFGHabcdefgh" or hitcoord[1] not in "12345678":
-        print("Please input a coordinate (A-H1-8)")
+    while True:
+        if len(hitcoord) == 2 or len(hitcoord) == 3 and hitcoord[0] in "ABCDEFGHIJabcdefghij" and hitcoord[1] in "1234567890":
+            column = hitcoord[0].upper()
+            if len(hitcoord) == 2:    
+                row = hitcoord[1]
+            else:
+                row = int(str(hitcoord[1]) + str(hitcoord[2]))
+            return int(row)-1, alphaConvert[column]
+
+        print("Please input a coordinate (A-J1-10)")
         hitcoord = list(input("Please input hit coordinates (ex. A1): "))
-    column = hitcoord[0].upper()
-    row = hitcoord[1]
-    return int(row)-1, alphaConvert[column]
+            
+    
+    
 def hitShips(board):
     hits = 0
     for row in board:
@@ -72,34 +80,74 @@ def hitShips(board):
 def createShips(board):
     shipLen = [5,4,3,3,2]
     shipAvalible = 5
-    direction = ["vertical", "horizontal"]
+    directionposibilities = ["vertical", "horizontal"]
+    j = 0
+   
+
     
-    direction = random.choice(direction)    
-    while shipAvalible != 0:
-        
+    for i in range(shipAvalible):
+        boatMade = False
+        direction = random.choice(directionposibilities)   
         col = randint(0,9)
-        row = randint(0,9)    
-        for i in range(len(shipLen)):
-            if direction == "vertical":
-                if row - int(shipLen[i]) >= 0:
-                    for i in range(0, int(shipLen[i])):
-                        if board[int(row-i)][int(col)-1] != "💥":
-                            board[int(row-i)][int(col)-1] = "💥"
-                        else:
-                            shipAvalible += 1
-            if direction == "horizontal":
-                if col + int(shipLen[i]) <= 11: #check ship within boundaries
-                    for i in range(0, int(shipLen[i])):
-                        if board[int(row)][int(col)+i-1] != "💥":
-                            board[int(row)][int(col)+i-1] = "💥"
-                        else:
-                            shipAvalible += 1
-        shipAvalible = shipAvalible - 1
-    showBoard(board)
-
-
-
+        row = randint(0,9) 
         
+
+        while boatMade == False:
+            
+   
+            if direction == "vertical":
+                if col + int(shipLen[i]) <= 10: #check ship within boundaries BROKEN
+                    colission = False
+                    buildCount = 0
+                    for i in range(0, int(shipLen[i])):
+                        buildCount += 1
+                        if board[int(row-i)][int(col)-1] == "💥":
+                            if colission:
+                                pass
+                            else:
+                                colission = True
+                    if colission:
+                        col = randint(0,9)
+                        row = randint(0,9)
+                    else:
+                       
+                        for j in range(buildCount):
+                            board[int(row-j)][int(col)-1] = "💥"
+                            
+                        boatMade = True
+                else:
+                    col = randint(0,9)
+                    row = randint(0,9)
+                    #shipAvalible += 1
+            if direction == "horizontal":
+                if col + int(shipLen[i]) <= 10: #check ship within boundaries BROKEN
+                    colission = False
+                    buildCount = 0
+                    for i in range(0, int(shipLen[i])):
+                        buildCount += 1
+                        if board[int(row)][int(col)+i-1] == "💥":
+                            if colission:
+                                pass
+                            else:
+                                colission = True
+                    if colission:
+                        col = randint(0,9)
+                        row = randint(0,9)
+                    else:
+                       
+                        for j in range(buildCount):
+                            board[int(row)][int(col)+j-1] = "💥"
+                        boatMade = True
+                else:
+                    col = randint(0,9)
+                    row = randint(0,9)
+                    #shipAvalible += 1
+        shipAvalible = shipAvalible - 1
+    return(board)
+
+
+
+
 
 
 if __name__ == '__main__':
