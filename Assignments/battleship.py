@@ -1,6 +1,6 @@
 from random import randint
 
-from numpy import random
+from numpy import greater, random
 
 alphaConvert = {'A': 0, 'B':1, 'C':2,'D':3,'E':4,"F":5,'G':6,'H':7, 'I':8, "J":9}
 
@@ -43,14 +43,34 @@ def showBoard(board):
         rownumb += 1
     
 
-def createShips2(hiddenBoard):
+def createShips(hiddenBoard):
     for ship in range(5):
-        shipRow = randint(0,7)
-        shipColumn = randint(0,7)
-        while hiddenBoard[shipRow][shipColumn] == "💥":
-            shipRow = randint(0,7)
-            shipColumn = randint(0,7)
-        hiddenBoard[shipRow][shipColumn] = "💥"
+        ori = randint(0,3)
+        shipRow = randint(1,8)
+        shipColumn = randint(1,8)
+        if hiddenBoard[shipRow][shipColumn] != "💥":
+
+            if ori == 0:
+                hiddenBoard[shipRow][shipColumn] = "💥"
+                hiddenBoard[shipRow - 1][shipColumn] = "💥"
+            if ori == 1:
+                hiddenBoard[shipRow][shipColumn] = "💥"
+                hiddenBoard[shipRow][shipColumn + 1] = "💥"
+            if ori == 2:
+                hiddenBoard[shipRow][shipColumn] = "💥"
+                hiddenBoard[shipRow + 1][shipColumn] = "💥"
+            if ori == 3:
+                hiddenBoard[shipRow][shipColumn] = "💥"
+                hiddenBoard[shipRow][shipColumn - 1] = "💥"
+
+            shipRow = randint(1,8)
+            shipColumn = randint(1,8)
+            ori = randint(0,3)
+        else:
+            shipRow = randint(1,8)
+            shipColumn = randint(1,8)
+            ori = randint(0,3)
+    showBoard(hiddenBoard)
     return hiddenBoard
 
 def getShotLocation():
@@ -77,7 +97,7 @@ def hitShips(board):
                 hits += 1
     return hits
 
-def createShips(board):
+def createShips2(board):
     shipLen = [5,4,3,3,2]
     shipAvalible = 5
     directionposibilities = ["vertical", "horizontal"]
@@ -87,21 +107,29 @@ def createShips(board):
     
     for i in range(shipAvalible):
         boatMade = False
+
+        #REGULAR VAR STATMENTS
         direction = random.choice(directionposibilities)   
         col = randint(0,9)
         row = randint(0,9) 
+
+        #DEBUG VAR STATMENTS
+        #col = 6
+        #row = 3
+        #direction = "horizontal"
         
 
         while boatMade == False:
             
    
             if direction == "vertical":
-                if col + int(shipLen[i]) <= 10: #check ship within boundaries BROKEN
+                buildCount = 0
+                if col + int(shipLen[i]) <= 11: #check ship within boundaries BROKEN
+                #if row-j > 0:
                     colission = False
-                    buildCount = 0
                     for i in range(0, int(shipLen[i])):
                         buildCount += 1
-                        if board[int(row-i)][int(col)-1] == "💥":
+                        if board[int(row-i)][int(col)-1] == "💥": 
                             if colission:
                                 pass
                             else:
@@ -118,7 +146,6 @@ def createShips(board):
                 else:
                     col = randint(0,9)
                     row = randint(0,9)
-                    #shipAvalible += 1
             if direction == "horizontal":
                 if col + int(shipLen[i]) <= 10: #check ship within boundaries BROKEN
                     colission = False
@@ -141,8 +168,9 @@ def createShips(board):
                 else:
                     col = randint(0,9)
                     row = randint(0,9)
-                    #shipAvalible += 1
         shipAvalible = shipAvalible - 1
+    
+    showBoard(board)
     return(board)
 
 
