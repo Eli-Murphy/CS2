@@ -4,27 +4,30 @@ import os
 
 def main():
 
-    try:
-        pathinput = input("Please input the path to the file (dir/folder/file.txt): ")
-        drive, path = os.path.splitdrive(pathinput)                          #Splits input into drive and path, path is redundant
-        
-        if pathinput.lower() and not pathinput.endswith(".txt"):             #Verifies input is indeed a text file
-            print("Sorry, file must have a .txt extension.\n")
-            main()
-        elif drive == "":                                                    #Verifies input has a drive selected
-            print("Please verify that you have inputted a drive (ex. C:\\)\n")
-            main()
-        else:
-            textfile = open(pathinput)
-    except OSError:
-        print("OSError: Inputted path is not a path or the file/directory does not exists. Please input a valid path.\n")
-        main()
+    #Code below is for user inputted paths
 
+    # try:
+    #     pathinput = input("Please input the path to the file (dir/folder/file.txt): ")
+    #     drive, path = os.path.splitdrive(pathinput)                          #Splits input into drive and path, path is redundant
+        
+    #     if pathinput.lower() and not pathinput.endswith(".txt"):             #Verifies input is indeed a text file
+    #         print("Sorry, file must have a .txt extension.\n")
+    #         main()
+    #     elif drive == "":                                                    #Verifies input has a drive selected
+    #         print("Please verify that you have inputted a drive (ex. C:\\)\n")
+    #         main()
+    #     else:
+    #         textfile = open(pathinput)
+    # except OSError:
+    #     print("OSError: Inputted path is not a path or the file/directory does not exists. Please input a valid path.\n")
+    #     main()
+
+    textfile = open(r"C:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbeth.txt")
 
     capyn = input("\nSet all words to lowercase? (y/n): ")                    #Checks if user wants to set all words to lowercase
     counts = dict()
 
-    for line in macbeth:
+    for line in textfile:
         line = line.strip()
         line = line.lower()
         line = line.translate(line.maketrans("", "", string.punctuation))
@@ -32,26 +35,28 @@ def main():
         for instance in word:
             if instance == " ":
                 counts["Spaces"] = counts["Spaces"] + 1
-            if instance == "\\n":
-                counts["\\n"] = counts["\n"] + 1
-            if instance != " ":
+            if instance == "":
+                break
+            if instance != " " and instance != "":
                 if instance in counts:
                     counts[instance] = counts[instance] + 1
                 else:
                     counts[instance] = 1
     finaldict = dict(reversed(sorted(counts.items(), key=lambda x:x[1])))
-    #finaldict = dict(sorted())
-    if os.path.exists(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt"):
-        os.remove(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt")
-        output = open(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt", "w+")
-    else:
-        output = open(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt", "w+")
+
+    #Code below is for a log, however only works on my machine
+
+    # if os.path.exists(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt"):
+    #     os.remove(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt")
+    #     output = open(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt", "w+")
+    # else:
+    #     output = open(r"c:\Users\emurphy24\Documents\GitHub\CS2\Assignments\macbethoutput.txt", "w+")
 
     for key in list(finaldict.keys()):
         print(key, ":", finaldict[key])
         result = str(key) + " : " + str(finaldict[key])
-        output.write(result)
-        output.write("\n")       
+        #output.write(result)
+        #output.write("\n")       
     for line in textfile:                                                     #For each line in the text file...
         line = line.strip()                                                   #This line through 8 down (27-34 unless changed) formats for sorting
         line = line.strip("\n")
