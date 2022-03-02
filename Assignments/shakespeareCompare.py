@@ -1,16 +1,18 @@
 import os
 from os import walk, path
 import string
-from art import *
 import matplotlib.pyplot as plt
+
+path = "C:\\Users\emurphy24\Documents\GitHub\CS2\Assignments\shakes"            #CHANGE DEPENDING ON MACHINE
 
 def main():
 
-    if path.exists(r"C:\\Users\emurphy24\Documents\GitHub\CS2\Assignments\shakes"): 
-        os.chdir("C:\\Users\emurphy24\Documents\GitHub\CS2\Assignments\shakes")
-        dir = "C:\\Users\emurphy24\Documents\GitHub\CS2\Assignments\shakes"
+    global path
+    if path.exists(path): 
+        os.chdir(path)
+        dir = path
 
-    #Above section checks to see if this device is Eli's School Laptop
+    #Above section checks to see if this device is Eli's School Laptop or other user
 
     else:
         dirinput = input("Please input the path to the dir of your shakespeare and breakwords folder (ex: C:\\Users\...\shakes): ")
@@ -221,19 +223,9 @@ def topEach(alldict, bwlist, dir):
         fnumber = fnumber + 1
     choice = input("\nWhat number file/s do you want to open? (seperate by #,#,#,#): ")
     
+    choice = choice.strip()
     choiceslist = choice.split(",")
-    
-    try:
-        for x in range(len(choiceslist)):
-            choiceslist[x] = int(choiceslist[x])
-            print("isntance: " + str(choiceslist[x]))
-            print("count: " + str(len(choiceslist[x])))
-            if choiceslist[x] < 1 or choiceslist[x] > len(choiceslist[x]) + 1:
-                print("Sorry, please input the numbers assigned to a file.")
-                main()
-    except:
-        print("Please input a numbers seperated by commas.")
-        main()
+
     try:
         topnumb = int(input("How many top results would you like?: "))
     except:
@@ -259,10 +251,25 @@ def topEach(alldict, bwlist, dir):
             graph = graphDict(finaldict, n, x, y, title, chart)
             graph.show()
 
+def graphDict(finaldict, n, title, chart):
+    """
+    Graphs a dictionary of instaces of a word being used in a text file
 
-        
+    :param name 1:finaldict the directory being used to be converted into a graph
+    :param name 2:n number of x values in graph
+    :param name 3:title chart title
+    :paran name 4:chart type of chart needed
+    :param type 1: dictionary
+    :param type 2: integer
+    :param type 3: string
+    :param type 4: string
+    :returns: a chart of the words and their instances
+    :return type: custon pyplot module object
+    """
 
-def graphDict(finaldict, n, x, y, title, chart):
+    x = "Words"
+    y = "Instances"
+
     try:
         
         #this separates the matching keys and values to its own 
@@ -285,6 +292,7 @@ def graphDict(finaldict, n, x, y, title, chart):
             plt.ylabel(y)
             plt.xlabel(x)
             plt.title(title)
+            print(type(plt))
             return plt
         elif chart == "pie":
             plt.pie(values, labels = keys, shadow=True, autopct='%1.1f%%',radius=1.3)
@@ -296,6 +304,4 @@ def graphDict(finaldict, n, x, y, title, chart):
         print("Error, missing data.")
     
 if __name__ == '__main__':
-    tprint("Shakespeare's Work ", font="cybermedium")
-    tprint("Comparison Project", font="cybermedium")
     main()
