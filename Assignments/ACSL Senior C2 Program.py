@@ -55,6 +55,8 @@ def fibCypher(option, num1, num2, key, msg):
     elif option == "D":
         charlist = msg.split(" ")
         strout = ""
+        while("" in charlist):
+            charlist.remove("")
         fib = fibo(len(charlist), num1, num2)
         for i in range(len(charlist)):
             fib[i] = fib[i] % 26
