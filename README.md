@@ -8,6 +8,10 @@ This is the repository I used for misclanious projects, test files, and Stack Ov
 
 This folder contains my graded and class assignments that a seperate repository was not required
 
+#### ACSL
+
+There are files in here in regards to the American Computer Science League Senior division coding problems.
+
 ### Labs
 
 This folder contains my ungraded code files that were used for testing ideas and questions I tested before sending out on Stack Overflow.
