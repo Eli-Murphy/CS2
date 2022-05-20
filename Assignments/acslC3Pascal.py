@@ -1,14 +1,38 @@
 from threading import local
+import numpy as np
+import math as mt
 
 
 def countUniqueValues(fibNumber):
     fibnumbers = fibonacciSeq(fibNumber)
-    print(fibnumbers)
+    #print(fibnumbers)
 
     pascTri = getPascTri(len(fibnumbers))
-    print(pascTri)
+    #print(pascTri)
 
-    getNumbers(pascTri, fibnumbers)
+    output = getNumbers(pascTri, fibnumbers)
+
+    newout = checkOcc(output, len(output))  
+
+    #print(len(newout))
+
+    return len(newout)  
+
+
+def checkOcc(output, n):
+    newout = []
+    mp = dict()
+    for i in range(n):
+        if output[i] in mp.keys():
+            mp[output[i]] += 1
+        else:
+            mp[output[i]] = 1
+
+    for j in mp:
+        if mp[j] == 1:
+            newout.append(j)
+    return newout
+
 
 
 def fibonacciSeq(fibNumber):
@@ -33,15 +57,30 @@ def getPascTri(fibNumber):
     return pascTri
 
 def getNumbers(pascTri, fibnumbers):
+    startrow = [0]
+    iterDepth = []
+    output = []
     for i in range(len(fibnumbers)):
+        
         iterType = ((i+1)//2) + ((i+1)%2)
+        startrow.append(iterType)
+        iterDepth.append(iterType)
+        
+
         fibsum = []
         row = 0
-        item = 0
-        for j in range(iterType):
-            fibsum.append(pascTri[row][item])
-            row = row + 1
-            if j != 1:
+    startrow.pop()
+    #print(startrow)
+    for j in range(len(fibnumbers)):
+        sumInstance = []
+        item = iterDepth[j]-1
+        for k in range(iterDepth[j]):
+            sumInstance.append(pascTri[startrow[j]][item])
+            output.append(pascTri[startrow[j]][item])
+            item = item-1
+            startrow[j] = startrow[j]+1
+        #print("sum:", sumInstance)
+    return output
                 
 
         
